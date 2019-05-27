@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    docker build --build-arg crystal_deb=crystal_0.27.0-1_amd64.deb -t "gcr.io/$PROJECT_ID/trusty_crystal:$COMMIT_SHA" .
+    if [ "$BRANCH_NAME" == "master" ]; then
+      docker tag "gcr.io/$PROJECT_ID/trusty_crystal:$COMMIT_SHA" gcr.io/$PROJECT_ID/trusty_crystal:latest
+    fi
+images:
+- 'gcr.io/$PROJECT_ID/trusty_crystal'
